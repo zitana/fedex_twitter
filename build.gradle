@@ -24,6 +24,7 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.1'
 	runtime('org.springframework.boot:spring-boot-devtools')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
