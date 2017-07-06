@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MainController {
 
-  @RequestMapping(value = "/", method = RequestMethod.POST)
+  @RequestMapping(value = "/", method = RequestMethod.GET)
   public Status receive(@RequestParam(name = "url") String url) {
     return new Status("ok", url);
   }
