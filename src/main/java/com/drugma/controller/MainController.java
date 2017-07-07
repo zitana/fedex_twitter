@@ -18,16 +18,17 @@ public class MainController {
 
   @RequestMapping(value = "/{tweet}", method = RequestMethod.GET)
   public Status receive(@PathVariable("tweet") String tweet) throws Exception {
-    new RestTemplate().postForObject("https://natural-radar.glitch.me/hearthbeat", new HearthbeatRequest("GITHUB_BUILD", "STARTED"), HearthbeatRequest.class);
+    new RestTemplate().postForObject("https://natural-radar.glitch.me/hearthbeat", new HearthbeatRequest("HEROKU_TWEET", "STARTED"), HearthbeatRequest.class);
     OAuthAuthorization authorization = new OAuthAuthorization(ConfigurationContext.getInstance());
     Twitter twitter = new TwitterFactory().getInstance(authorization);
     try {
       twitter.updateStatus(tweet);
+      new RestTemplate().postForObject("https://natural-radar.glitch.me/hearthbeat", new HearthbeatRequest("HEROKU_TWEET", "SUCCESS"), HearthbeatRequest.class);
     } catch (TwitterException e) {
       System.err.println("Error occurred while updating the status!");
       System.out.println(e.getMessage());
+      new RestTemplate().postForObject("https://natural-radar.glitch.me/hearthbeat", new HearthbeatRequest("HEROKU_TWEET", "ERROR"), HearthbeatRequest.class);
     }
-    new RestTemplate().postForObject("https://natural-radar.glitch.me/hearthbeat", new HearthbeatRequest("GITHUB_BUILD", "SUCCESS"), HearthbeatRequest.class);
     return new Status("ok", tweet);
   }
 }
