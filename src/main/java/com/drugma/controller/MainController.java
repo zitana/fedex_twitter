@@ -20,7 +20,7 @@ import java.io.*;
 public class MainController {
 
   @RequestMapping(value = "/", method = RequestMethod.GET)
-  public Status receive() {
+  public Status receive() throws Exception {
     String tweet = URLConnectionReader.getText("https://raw.githubusercontent.com/gy0p4k/fedex/master/content");
 
     OAuthAuthorization authorization = new OAuthAuthorization(ConfigurationContext.getInstance());
