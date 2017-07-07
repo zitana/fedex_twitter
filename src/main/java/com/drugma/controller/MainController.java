@@ -13,15 +13,16 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.OAuthAuthorization;
 import twitter4j.conf.ConfigurationContext;
+import java.net.*;
+import java.io.*;
 
 @RestController
 public class MainController {
 
   @RequestMapping(value = "/", method = RequestMethod.GET)
-  public Status receive(@RequestParam(name = "tweet") String tweet, HttpServletRequest request) {
-    if (request.getParameter("tweet") != null) {
-      tweet = request.getParameter("tweet");
-    }
+  public Status receive() {
+    String tweet = URLConnectionReader.getText("https://raw.githubusercontent.com/gy0p4k/fedex/master/content");
+
     OAuthAuthorization authorization = new OAuthAuthorization(ConfigurationContext.getInstance());
     Twitter twitter = new TwitterFactory().getInstance(authorization);
     try {
@@ -33,5 +34,28 @@ public class MainController {
     new RestTemplate().postForObject("https://natural-radar.glitch.me/hearthbeat", new HearthbeatRequest("GITHUB_BUILD", "SUCCESS"), HearthbeatRequest.class);
     return new Status("ok", tweet);
   }
+
+}
+
+
+
+class URLConnectionReader {
+    public static String getText(String url) throws Exception {
+        URL website = new URL(url);
+        URLConnection connection = website.openConnection();
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(
+                        connection.getInputStream()));
+
+        StringBuilder response = new StringBuilder();
+        String inputLine;
+
+        while ((inputLine = in.readLine()) != null)
+            response.append(inputLine);
+
+        in.close();
+
+        return response.toString();
+    }
 
 }
