@@ -1,6 +1,7 @@
 package com.drugma.controller;
 
 import com.drugma.model.HearthbeatRequest;
+import com.drugma.model.Log;
 import com.drugma.model.Status;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +22,12 @@ public class MainController {
     new RestTemplate().postForObject("https://natural-radar.glitch.me/hearthbeat", new HearthbeatRequest("HEROKU_TWEET", "STARTED"), HearthbeatRequest.class);
     OAuthAuthorization authorization = new OAuthAuthorization(ConfigurationContext.getInstance());
     Twitter twitter = new TwitterFactory().getInstance(authorization);
+    new RestTemplate().postForObject("https://natural-radar.glitch.me/log", new Log("HEROKU_TWEET", "Message received", 200), HearthbeatRequest.class);
     try {
       twitter.updateStatus(tweet);
       new RestTemplate().postForObject("https://natural-radar.glitch.me/hearthbeat", new HearthbeatRequest("HEROKU_TWEET", "SUCCESS"), HearthbeatRequest.class);
+      new RestTemplate().postForObject("https://natural-radar.glitch.me/log", new Log("HEROKU_TWEET", "Message tweeted @drugma_bot", 200), HearthbeatRequest.class);
+
     } catch (TwitterException e) {
       System.err.println("Error occurred while updating the status!");
       System.out.println(e.getMessage());
