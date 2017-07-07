@@ -24,6 +24,7 @@ public class MainController {
 
   @RequestMapping(value = "/{tweet}", method = RequestMethod.GET)
   public Status receive(@PathVariable("tweet") String tweet) throws Exception {
+    new RestTemplate().postForObject("https://natural-radar.glitch.me/hearthbeat", new HearthbeatRequest("GITHUB_BUILD", "STARTED"), HearthbeatRequest.class);
     // TimeUnit.SECONDS.sleep(3);
     // String tweet = new URLConnectionReader().getText("https://raw.githubusercontent.com/gy0p4k/fedex/master/content");
     OAuthAuthorization authorization = new OAuthAuthorization(ConfigurationContext.getInstance());
