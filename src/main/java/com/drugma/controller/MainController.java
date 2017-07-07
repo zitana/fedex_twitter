@@ -23,9 +23,8 @@ public class MainController {
 
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public Status receive() throws Exception {
-    TimeUnit.SECONDS.sleep(3);
+    // TimeUnit.SECONDS.sleep(3);
     String tweet = new URLConnectionReader().getText("https://raw.githubusercontent.com/gy0p4k/fedex/master/content");
-
     OAuthAuthorization authorization = new OAuthAuthorization(ConfigurationContext.getInstance());
     Twitter twitter = new TwitterFactory().getInstance(authorization);
     try {
